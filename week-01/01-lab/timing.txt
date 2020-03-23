@@ -1,0 +1,56 @@
++-------+---------+-------------+---------+----------------+--------------+
+| Input | Initial |     Has     |  Number |  Average time  | Average time |
+|  size |  Order  | Duplicates? | of runs | for useIntList |   for sort   |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Random  | No          | 10      | 0.32s          | 0.0048s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Sorted  | No          | 10      | 0.21s          | 0.0028s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Reverse | No          | 10      | 0.22s          | 0.0024s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Random  | Yes         | 10      | 0.21s          | 0.0074s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Sorted  | Yes         | 10      | 0.12s          | 0.0049s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 5000  | Reverse | Yes         | 10      | 0.12s          | 0.0047s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Random  | No          | 10      | 1.2s           | 0.0088s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Sorted  | No          | 10      | 0.65s          | 0.004s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Reverse | No          | 10      | 0.64s          | 0.004s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Random  | Yes         | 10      | 0.81s          | 0.015s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Sorted  | Yes         | 10      | 0.45s          | 0.0078s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 10000 | Reverse | Yes         | 10      | 0.46s          | 0.0094s      |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Random  | No          | 10      | 41s            | 0.050s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Sorted  | No          | 10      | 13s            | 0.024s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Reverse | No          | 10      | 13s            | 0.015s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Random  | Yes         | 10      | 29s            | 0.048s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Sorted  | Yes         | 10      | 10s            | 0.028s       |
++-------+---------+-------------+---------+----------------+--------------+
+| 50000 | Reverse | Yes         | 10      | 11s            | 0.031s       |
++-------+---------+-------------+---------+----------------+--------------+
+
+Note: average values rounded to 2 significant figures
+
+Explanation:
+
+From the results in the table above, using sort and useIntList both require more
+time to sort through random numbers than numbers that are already in order 
+(sorted/ reverse). This is because the program must search through the list to 
+find the correct position to place in the next number, whereas the ordered lists 
+only need to be appended to the end of the list. 
+
+There is also smaller difference between the timing data for lists with less 
+than 10,000 numbers (less than 1 second). So, it will be impractical to use 
+useIntList as a sort program for sorting more than 10,000 numbers as the 
+difference betweeen the time it takes to compute useIntList when compared with 
+sort becomes greater than 1 second (e.g. 50000 random numbers).
