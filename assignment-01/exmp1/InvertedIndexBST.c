@@ -18,8 +18,8 @@ static InvertedIndexBST newIndexNode (char *word, char *filename, double tf)
 {
 	InvertedIndexBST new = malloc (sizeof *new);
 	new->word = word;
-	FileList listFiles = createList();
-    new->fileList = insertList(listFiles, filename, tf);
+	FileList listFiles = createFileList();
+    new->fileList = insertFileList(listFiles, filename, tf);
 	new->left = new->right = NULL;
 	return new;
 }
@@ -33,7 +33,7 @@ InvertedIndexBST insertInvertedIndex (InvertedIndexBST b, char *word, char *file
 	else if (strcmp(word,b->word) > 0)
 		b->right = insertInvertedIndex(b->right, word, filename, tfidf);
 	else
-		b->fileList = insertList(b->fileList, filename, tfidf);
+		b->fileList = insertFileList(b->fileList, filename, tfidf);
 	return b;
 }
 
@@ -46,13 +46,16 @@ int nodesInvertedIndex (InvertedIndexBST b) {
 }
 
 // check whether a word is in a InvertedIndexBST
-int findInvertedIndex (InvertedIndexBST b, char *word) {
+InvertedIndexBST findInvertedIndex (InvertedIndexBST b, char *word) {
     if (b == NULL)
-		return 0;
+		return NULL;
+
+	InvertedIndexBST node = NULL;
+	if (strcmp(word,b->word) == 0)
+		return b;
 	else if (strcmp(word,b->word) < 0)
-		return findInvertedIndex(b->left, word);
+		node = findInvertedIndex(b->left, word);
 	else if (strcmp(word,b->word) > 0)
-		return findInvertedIndex(b->right, word);
-	else // (v == b->word)
-		return 1;
+		node = findInvertedIndex(b->right, word);
+	return node;
 }

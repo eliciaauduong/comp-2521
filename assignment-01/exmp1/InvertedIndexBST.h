@@ -14,4 +14,4 @@ InvertedIndexBST insertInvertedIndex (InvertedIndexBST b, char *word, char *file
 int nodesInvertedIndex (InvertedIndexBST b);
 
 // check whether a value is in a InvertedIndexBST
-int findInvertedIndex (InvertedIndexBST b, char *word);
+InvertedIndexBST findInvertedIndex (InvertedIndexBST b, char *word);
