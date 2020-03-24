@@ -2,9 +2,11 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "invertedIndex.h"
 #include "InvertedIndexBST.h"
+#include "TfIdfList.h"
 
 #define WORD_LEN_MAX 100
 
@@ -113,3 +115,82 @@ static void printIndex(FILE *file, InvertedIndexBST tree) {
     fprintf(file, "\n");
     printIndex(file, tree->right);
 }
+
+/**
+ * Returns  an  ordered list where each node contains a filename and the 
+ * corresponding tf-idf value for a given searchWord. You only  need  to
+ * include documents (files) that contain the given searchWord. The list
+ * must  be  in  descending order of tf-idf value. If there are multiple
+ * files with same  tf-idf  value,  order  them  by  their  filename  in
+ * ascending order.
+*/
+TfIdfList calculateTfIdf(InvertedIndexBST tree, char *searchWord, int D) {
+    TfIdfList orderedTfIdf = createTfIdfList();
+
+    // find documents with the search word
+    InvertedIndexBST treeTerm = findInvertedIndex(tree, searchWord);
+
+    FileList curr = treeTerm->fileList;
+    while (curr != NULL) {
+        // calculate tfidf
+        double tf = calculateTf(searchWord, curr->filename);
+        double idf = calculateIdf(searchWord, D, tree);
+        double tfidf = tf * idf;
+
+        // add to list
+        orderedTfIdf = insertTfIdfList(orderedTfIdf, curr->filename, tfidf);
+        curr = curr->next;
+    }  
+
+    return orderedTfIdf;
+}
+
+/**
+    tf(t, d) = (frequency of term t in d) / (number of words in d). 
+*/
+double calculateTf(char *term, char *document) {
+    FILE *openFile = fopen(document, "r");
+
+    double tf = 0;
+    double termFrequency = 0;
+    double wordCount = 0;
+    char word[100];
+    while (fscanf(openFile, "%s", word) != EOF) {
+        if (strcmp(normaliseWord(word), term) == 0) {
+            termFrequency++;
+        }
+        wordCount++;
+    }
+    tf = (termFrequency / wordCount);
+    fclose(openFile);
+    return tf;
+}
+
+/**
+    calculate inverse document frequency idf(t, D)
+    dividing the total number of documents by the number of documents containing the term
+    and then taking the logarithm of that quotient
+*/
+double calculateIdf(char *term, int d, InvertedIndexBST tree) {
+    double idf = 0;
+    double termDoc = 0;
+
+    InvertedIndexBST treeTerm = findInvertedIndex(tree, term);
+    FileList curr = treeTerm->fileList;
+    while (curr != NULL) {
+        termDoc++;
+        curr = curr->next;
+    }
+    idf = log10(d / termDoc);
+    return idf;
+}
+/**
+ * Returns  an  ordered list where each node contains a filename and the
+ * summation of tf-idf values of all the matching search words for  that
+ * file.  You only need to include documents (files) that contain one or
+ * more of the given search words. The list must be in descending  order
+ * of summation of tf-idf values (tfIdfSum). If there are multiple files
+ * with  the  same tf-idf sum, order them by their filename in ascending
+ * order.
+ */
+TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D);

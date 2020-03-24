@@ -62,7 +62,8 @@ void printInvertedIndex(InvertedIndexBST tree);
  * ascending order.
 */
 TfIdfList calculateTfIdf(InvertedIndexBST tree, char *searchWord, int D);
-
+double calculateTf(char *term, char *document);
+double calculateIdf(char *term, int d, InvertedIndexBST tree);
 /**
  * Returns  an  ordered list where each node contains a filename and the
  * summation of tf-idf values of all the matching search words for  that
