@@ -9,12 +9,12 @@
 
 
 // Create a new empty list
-FileList createList (void) {
+FileList createFileList (void) {
     return NULL;
 }
 
 // Create a new node to be added to the list
-FileList newListNode (char *file, double tf, FileList next) {
+FileList newFileListNode (char *file, double tf, FileList next) {
     FileList new = malloc(sizeof(*new));
     new->filename = file;
     new->tf = tf;
@@ -23,7 +23,7 @@ FileList newListNode (char *file, double tf, FileList next) {
 }
 
 // Returns the number of elements in the list
-int listLength (FileList list) {
+int fileListLength (FileList list) {
     if (list == NULL) {
         return 0;
     }
@@ -39,10 +39,10 @@ int listLength (FileList list) {
 
 // Insert a new file into the right position in the list
 // Sorted by alphabetical order
-FileList insertList (FileList list, char *file, double tf) {
+FileList insertFileList (FileList list, char *file, double tf) {
     // empty list
     if (list == NULL) {
-        return newListNode(file, tf, NULL);
+        return newFileListNode(file, tf, NULL);
     }
 
     // start of list
@@ -52,7 +52,7 @@ FileList insertList (FileList list, char *file, double tf) {
     
     if (strcmp(file, list->filename) < 0) {
         FileList tmp = list;
-        list = newListNode(file, tf, tmp);
+        list = newFileListNode(file, tf, tmp);
         return list;
     }
 
@@ -65,7 +65,7 @@ FileList insertList (FileList list, char *file, double tf) {
         
         if (strcmp(file, curr->next->filename) < 0) {
             FileList tmp = curr->next;
-            curr->next = newListNode(file, tf, tmp);
+            curr->next = newFileListNode(file, tf, tmp);
             return list;
         }
         curr = curr->next;
@@ -79,7 +79,7 @@ FileList insertList (FileList list, char *file, double tf) {
         while (curr->next != NULL) {
             curr = curr->next;
         }
-        curr->next = newListNode(file, tf, NULL);
+        curr->next = newFileListNode(file, tf, NULL);
         return list;
     }
 
