@@ -66,26 +66,27 @@ TfIdfList insertTfIdfList (TfIdfList list, char *file, double tfidf) {
     // middle of list
     TfIdfList curr = list;
     while (curr->next != NULL) {
-        if (curr->next->tfIdfSum <= tfidf) {
-            if (curr->next->tfIdfSum == tfidf) {
-                if (strcmp(file, curr->next->filename) < 0) {
-                    TfIdfList new = newTfIdfListNode(file, tfidf, curr->next);
-                    curr->next = new;
-                    return list;
-                } 
-                else if (strcmp(file, curr->next->filename) > 0) {
-                    TfIdfList new = newTfIdfListNode(file, tfidf, curr->next->next);
-                    curr->next->next = new;
-                    return list;
-                }
-                return list;
-            }
+        if (tfidf > curr->next->tfIdfSum) {
+            TfIdfList new = newTfIdfListNode(file, tfidf, curr->next);
+            curr->next = new;
+            return list;
+        }
 
-            if (curr->next->tfIdfSum < tfidf) {
+        if (curr->tfIdfSum == tfidf) {
+            if (strcmp(file, curr->next->filename) < 0) {
                 TfIdfList new = newTfIdfListNode(file, tfidf, curr->next);
                 curr->next = new;
                 return list;
+            } 
+            else if (strcmp(file, curr->next->filename) > 0) {
+                while (curr->next->next->tfIdfSum == tfidf && strcmp(file, curr->next->filename) > 0) {
+                    curr = curr->next;
+                }
+                TfIdfList new = newTfIdfListNode(file, tfidf, curr->next->next);
+                curr->next->next = new;
+                return list;
             }
+
         }
         curr = curr->next;
     }
