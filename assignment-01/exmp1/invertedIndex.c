@@ -78,8 +78,11 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename) {
             saveWord = (char *)calloc(WORD_LEN_MAX, sizeof(char));
             strcpy(saveWord, normWord);
 
+            //
+            double tf = calculateTf(saveWord, saveFile);
+
             // insert word into inverted index
-            index = insertInvertedIndex(index, saveWord, saveFile, 0);
+            index = insertInvertedIndex(index, saveWord, saveFile, tf);
         }
         fclose(wordFile);
     }
@@ -193,4 +196,41 @@ double calculateIdf(char *term, int d, InvertedIndexBST tree) {
  * with  the  same tf-idf sum, order them by their filename in ascending
  * order.
  */
-TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D);
+TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
+    
+    TfIdfList unorderedTfIdf = createTfIdfList();
+    int i = 0;
+    while (searchWords[i] != NULL) {
+        InvertedIndexBST wordNode = findInvertedIndex(tree, searchWords[i]);
+        FileList curr = wordNode->fileList;
+        while (curr != NULL) {
+            
+            // calculate tfidf
+            double tf = curr->tf;
+            double idf = calculateIdf(searchWords[i], D, tree);
+            double tfidf = tf * idf;
+            int check = inTfIdf(unorderedTfIdf, curr->filename);
+            
+            // if not in unordered list
+            if (check == 0) {
+                unorderedTfIdf = insertTfIdfList(unorderedTfIdf, curr->filename, tfidf);
+            } 
+            // in unordered list
+            // update tfidf
+            if (check != 0){ 
+                unorderedTfIdf = updateTfIdfList(unorderedTfIdf, curr->filename, tfidf);
+                curr->tf += tfidf;
+            }
+            curr = curr->next;
+        }
+        i++;
+    }
+    TfIdfList orderedTfIdf = createTfIdfList();
+    TfIdfList uList = unorderedTfIdf;
+    while (uList != NULL) {
+        orderedTfIdf = insertTfIdfList(orderedTfIdf, uList->filename, uList->tfIdfSum);
+        uList = uList->next;
+    }
+    return orderedTfIdf;
+
+}

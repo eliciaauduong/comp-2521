@@ -110,33 +110,33 @@ int main (int argc, char *argv[]) {
 	// ---------------------------------------------------------
 
 
-	// /**  -----  The following will be available over the weekend -----
-	// */
+	/**  -----  The following will be available over the weekend -----
+	*/
 
-	// char *words[] = { "network", "computer",  NULL }; 
-	// TfIdfList listM1 = retrieve(invertedTree, words , 141);
+	char *words[] = { "network", "computer",  NULL }; 
+	TfIdfList listM1 = retrieve(invertedTree, words , 141);
 
-	// /** Your output in "network_computer.txt" should be 
-	//     same as the expected answer in "network_computer_exp.txt"
-	// */
-	// printTfIdfList("network_computer.txt" , listM1);
+	/** Your output in "network_computer.txt" should be 
+	    same as the expected answer in "network_computer_exp.txt"
+	*/
+	printTfIdfList("network_computer.txt" , listM1);
 
 
-	// char *words2[] = { "software", "security",  NULL }; 
-	// TfIdfList listM2 = retrieve(invertedTree, words2 , 141);
+	char *words2[] = { "software", "security",  NULL }; 
+	TfIdfList listM2 = retrieve(invertedTree, words2 , 141);
 
-	// /** Your output in "software_security.txt" should be 
-	//     same as the expected answer in "software_security_exp.txt"
-	// */
-	// printTfIdfList("software_security.txt" , listM2);
+	/** Your output in "software_security.txt" should be 
+	    same as the expected answer in "software_security_exp.txt"
+	*/
+	printTfIdfList("software_security.txt" , listM2);
 
-	// char *words3[] = { "database", NULL }; 
-	// TfIdfList listM3 = retrieve(invertedTree, words3 , 141);
+	char *words3[] = { "database", NULL }; 
+	TfIdfList listM3 = retrieve(invertedTree, words3 , 141);
 
-	// /** Your output in "database.txt.txt" should be 
-	//     same as the expected answer in "database_exp.txt"
-	// */
-	// printTfIdfList("database.txt" , listM3);
+	/** Your output in "database.txt.txt" should be 
+	    same as the expected answer in "database_exp.txt"
+	*/
+	printTfIdfList("database.txt" , listM3);
 
 
 	/**  I am not providing a free function here, because that will expose some logic 

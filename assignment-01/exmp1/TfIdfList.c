@@ -120,3 +120,32 @@ TfIdfList insertTfIdfList (TfIdfList list, char *file, double tfidf) {
     return list;
 
 }
+
+// Check if a file is in a list
+// Return 0 if not in list
+// Return 1 if in list
+int inTfIdf(TfIdfList list, char *file) {
+    if (list == NULL) {
+        return 0;
+    }
+
+    TfIdfList curr = list;
+    while (curr != NULL) {
+        if (strcmp(file, curr->filename) == 0) {
+            return 1;
+        }
+        curr = curr->next;
+    }
+    return 0;
+}
+
+TfIdfList updateTfIdfList(TfIdfList list, char *file, double tfidf) {
+    TfIdfList curr = list;
+    while (curr != NULL) {
+        if (strcmp(file, curr->filename) == 0) {
+            curr->tfIdfSum += tfidf;
+        }
+        curr = curr->next;
+    }
+    return list;
+}
