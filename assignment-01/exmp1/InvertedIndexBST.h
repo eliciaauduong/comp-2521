@@ -1,6 +1,12 @@
-// InvertedIndexBST.h
-// binary search tree ADT interface
-// adapted from source: COMP2521 lab 03 BSTree.h
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    InvertedIndexBST.h                                                      //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    Adapted from source: COMP2521 Lab 03 BSTree.h                           //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Binary search tree interface for storing the inverted index             //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
 typedef struct InvertedIndexNode *InvertedIndexBST;
 

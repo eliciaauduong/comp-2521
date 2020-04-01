@@ -1,5 +1,11 @@
-// TfIdfList.h 
-// linked list interface
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    TfIdfList.h                                                             //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Linked list interface for storing a list of files and tdidf values      //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
 typedef struct TfIdfNode *TfIdfList;
 

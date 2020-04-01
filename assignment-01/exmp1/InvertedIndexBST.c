@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    InvertedIndexBST.c                                                      //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    Adapted from source: COMP2521 Lab 03 BSTree.c                           //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Binary search tree implementation for storing the inverted index        //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
 #include <assert.h>
 #include <stdio.h>

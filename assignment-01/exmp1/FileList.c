@@ -1,12 +1,18 @@
-// fileList.h 
-// linked list interface
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    FileList.c                                                              //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Linked list implementation for storing a list of files                  //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "FileList.h"
 #include "invertedIndex.h"
-
 
 // Create a new empty list
 FileList createFileList (void) {

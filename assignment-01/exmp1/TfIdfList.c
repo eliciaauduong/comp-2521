@@ -1,5 +1,12 @@
-// TfIdfList.c
-// linked list interface
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    TfIdfList.c                                                             //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Linked list implementation for storing a list of files and tdidf values //
+//                                                                            //
+/////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

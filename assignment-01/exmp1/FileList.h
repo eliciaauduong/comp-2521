@@ -1,5 +1,11 @@
-// fileList.h 
-// linked list interface
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    FileList.h                                                              //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Linked list interface for storing a list of files                       //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
 typedef struct FileListNode *FileList;
 

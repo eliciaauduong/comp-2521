@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    invertedIndex.c                                                         //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 1 - Information Retrieval                         //
+//    Completed functions for part 1 and part 2                               //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
