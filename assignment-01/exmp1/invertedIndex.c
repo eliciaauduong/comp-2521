@@ -11,7 +11,8 @@
 #define WORD_LEN_MAX 100
 
 static void printIndex(FILE *file, InvertedIndexBST tree);
-
+double calculateTf(char *term, char *document);
+double calculateIdf(char *term, int d, InvertedIndexBST tree);
 /**
  * Normalises a given string. See the spec for details. Note: you should
  * modify the given string - do not create a copy of it.
