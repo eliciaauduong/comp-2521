@@ -144,7 +144,7 @@ static void printIndex(FILE *file, InvertedIndexBST tree) {
  * ascending order.
 */
 TfIdfList calculateTfIdf(InvertedIndexBST tree, char *searchWord, int D) {
-    TfIdfList orderedTfIdf = createTfIdfList();
+    TfIdfList ordered = createTfIdfList();
 
     // find documents with the search word
     InvertedIndexBST treeTerm = findInvertedIndex(tree, searchWord);
@@ -157,11 +157,11 @@ TfIdfList calculateTfIdf(InvertedIndexBST tree, char *searchWord, int D) {
         double tfidf = tf * idf;
 
         // add to list
-        orderedTfIdf = insertTfIdfList(orderedTfIdf, curr->filename, tfidf);
+        ordered = insertTfIdfList(ordered, curr->filename, tfidf);
         curr = curr->next;
     }  
 
-    return orderedTfIdf;
+    return ordered;
 }
 
 /**
@@ -220,7 +220,7 @@ double calculateIdf(char *term, int d, InvertedIndexBST tree) {
  */
 TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
     
-    TfIdfList unorderedTfIdf = createTfIdfList();
+    TfIdfList unordered = createTfIdfList();
     int i = 0;
     // for every search word
     while (searchWords[i] != NULL) {
@@ -232,15 +232,15 @@ TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
             double idf = calculateIdf(searchWords[i], D, tree);
             double tfidf = tf * idf;
 
-            int check = inTfIdf(unorderedTfIdf, curr->filename);
+            int check = inTfIdf(unordered, curr->filename);
             // if not in unordered list
             if (check == 0) {
-                unorderedTfIdf = insertTfIdfList(unorderedTfIdf, curr->filename, tfidf);
+                unordered = insertTfIdfList(unordered, curr->filename, tfidf);
             } 
             // in unordered list
             // update tfidf
             else { 
-                unorderedTfIdf = updateTfIdfList(unorderedTfIdf, curr->filename, tfidf);
+                unordered = updateTfIdfList(unordered, curr->filename, tfidf);
                 curr->tf += tfidf;
             }
             curr = curr->next;
@@ -249,11 +249,11 @@ TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
     }
 
     // re-order the tree by descending tfidf order then alphabetically
-    TfIdfList orderedTfIdf = createTfIdfList();
-    TfIdfList uList = unorderedTfIdf;
+    TfIdfList ordered = createTfIdfList();
+    TfIdfList uList = unordered;
     while (uList != NULL) {
-        orderedTfIdf = insertTfIdfList(orderedTfIdf, uList->filename, uList->tfIdfSum);
+        ordered = insertTfIdfList(ordered, uList->filename, uList->tfIdfSum);
         uList = uList->next;
     }
-    return orderedTfIdf;
+    return ordered;
 }
