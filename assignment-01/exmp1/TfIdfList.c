@@ -14,7 +14,6 @@
 #include "TfIdfList.h"
 #include "invertedIndex.h"
 
-
 // Create a new empty list
 TfIdfList createTfIdfList (void) {
     return NULL;
@@ -73,20 +72,25 @@ TfIdfList insertTfIdfList (TfIdfList list, char *file, double tfidf) {
     // middle of list
     TfIdfList curr = list;
     while (curr->next != NULL) {
+        // if tfidf is bigger than the next node, add in place
         if (tfidf > curr->next->tfIdfSum) {
             TfIdfList new = newTfIdfListNode(file, tfidf, curr->next);
             curr->next = new;
             return list;
         }
 
+        // if tfidf is the same as the current node
+        // compare filenames
         if (curr->tfIdfSum == tfidf) {
+            // add in alphabetical order
             if (strcmp(file, curr->next->filename) < 0) {
                 TfIdfList new = newTfIdfListNode(file, tfidf, curr->next);
                 curr->next = new;
                 return list;
             } 
             else if (strcmp(file, curr->next->filename) > 0) {
-                while (curr->next->next->tfIdfSum == tfidf && strcmp(file, curr->next->filename) > 0) {
+                while (curr->next->next->tfIdfSum == tfidf 
+                    && strcmp(file, curr->next->filename) > 0) {
                     curr = curr->next;
                 }
                 TfIdfList new = newTfIdfListNode(file, tfidf, curr->next->next);
@@ -99,19 +103,19 @@ TfIdfList insertTfIdfList (TfIdfList list, char *file, double tfidf) {
     }
 
     // end of list
-    // if tfidf is smaller than or equal to the last node
     curr = list;
     while (curr->next != NULL) {
         curr = curr->next;
     }
 
+    // if tfidf is smaller than the last node
     if (tfidf < curr->tfIdfSum) {
         TfIdfList new = newTfIdfListNode(file, tfidf, NULL);
         curr->next = new;
         return list;
     }
     
-    // if tfidf is the same as the first node in the list
+    // if tfidf is the same as the last node in the list
     if (tfidf == curr->tfIdfSum) {
         // compare file names and add in ascending order
         if (strcmp(file, curr->filename) < 0) {
@@ -123,9 +127,7 @@ TfIdfList insertTfIdfList (TfIdfList list, char *file, double tfidf) {
             return list;
         }
     }
-
     return list;
-
 }
 
 // Check if a file is in a list
@@ -146,6 +148,8 @@ int inTfIdf(TfIdfList list, char *file) {
     return 0;
 }
 
+// For a given file already in the tfidf list
+// Update the value of tfidf
 TfIdfList updateTfIdfList(TfIdfList list, char *file, double tfidf) {
     TfIdfList curr = list;
     while (curr != NULL) {
