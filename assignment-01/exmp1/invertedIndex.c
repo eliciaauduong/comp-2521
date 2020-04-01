@@ -73,22 +73,24 @@ InvertedIndexBST generateInvertedIndex(char *collectionFilename) {
     // open the collection file
     FILE *collection = fopen(collectionFilename, "r");
     
-    // for every file in collection.txt
     char filename[100]; 
     char *saveFile;
+    // for every file in collection.txt
     while (fscanf(collection, "%s", filename) != EOF) {
+        // store the name of the file in another variable
         saveFile = (char *)calloc(WORD_LEN_MAX, sizeof(char));
         strcpy(saveFile, filename);
         FILE *wordFile = fopen(filename, "r");
-        // open each file and get the words from the file
         char word[100];
         char *saveWord;
+        // open each file and get the words from the file
         while (fscanf(wordFile, "%s", word) != EOF) {
+            // store the word in another variable 
             char *normWord = normaliseWord(word);
             saveWord = (char *)calloc(WORD_LEN_MAX, sizeof(char));
             strcpy(saveWord, normWord);
 
-            //
+            // calculate tf value for the word
             double tf = calculateTf(saveWord, saveFile);
 
             // insert word into inverted index
@@ -115,6 +117,10 @@ void printInvertedIndex(InvertedIndexBST tree) {
     fclose(output);
 }
 
+/**
+ * Prints the inverted index to a file using recursion
+ * Uses in-order traversal
+*/
 static void printIndex(FILE *file, InvertedIndexBST tree) {
     if (tree == NULL) return;
 
@@ -169,9 +175,11 @@ double calculateTf(char *term, char *document) {
     double wordCount = 0;
     char word[100];
     while (fscanf(openFile, "%s", word) != EOF) {
+        // calculate frequency of term t
         if (strcmp(normaliseWord(word), term) == 0) {
             termFrequency++;
         }
+        // number of words in D
         wordCount++;
     }
     tf = (termFrequency / wordCount);
@@ -181,22 +189,26 @@ double calculateTf(char *term, char *document) {
 
 /**
     calculate inverse document frequency idf(t, D)
-    dividing the total number of documents by the number of documents containing the term
+    dividing the total number of documents by 
+    the number of documents containing the term
     and then taking the logarithm of that quotient
 */
 double calculateIdf(char *term, int d, InvertedIndexBST tree) {
     double idf = 0;
     double termDoc = 0;
 
+    // count the number of documents containing the term
     InvertedIndexBST treeTerm = findInvertedIndex(tree, term);
     FileList curr = treeTerm->fileList;
     while (curr != NULL) {
         termDoc++;
         curr = curr->next;
     }
+
     idf = log10(d / termDoc);
     return idf;
 }
+
 /**
  * Returns  an  ordered list where each node contains a filename and the
  * summation of tf-idf values of all the matching search words for  that
@@ -210,24 +222,24 @@ TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
     
     TfIdfList unorderedTfIdf = createTfIdfList();
     int i = 0;
+    // for every search word
     while (searchWords[i] != NULL) {
         InvertedIndexBST wordNode = findInvertedIndex(tree, searchWords[i]);
         FileList curr = wordNode->fileList;
         while (curr != NULL) {
-            
             // calculate tfidf
             double tf = curr->tf;
             double idf = calculateIdf(searchWords[i], D, tree);
             double tfidf = tf * idf;
+
             int check = inTfIdf(unorderedTfIdf, curr->filename);
-            
             // if not in unordered list
             if (check == 0) {
                 unorderedTfIdf = insertTfIdfList(unorderedTfIdf, curr->filename, tfidf);
             } 
             // in unordered list
             // update tfidf
-            if (check != 0){ 
+            else { 
                 unorderedTfIdf = updateTfIdfList(unorderedTfIdf, curr->filename, tfidf);
                 curr->tf += tfidf;
             }
@@ -235,6 +247,8 @@ TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
         }
         i++;
     }
+
+    // re-order the tree by descending tfidf order then alphabetically
     TfIdfList orderedTfIdf = createTfIdfList();
     TfIdfList uList = unorderedTfIdf;
     while (uList != NULL) {
@@ -242,5 +256,4 @@ TfIdfList retrieve(InvertedIndexBST tree, char *searchWords[], int D) {
         uList = uList->next;
     }
     return orderedTfIdf;
-
 }
