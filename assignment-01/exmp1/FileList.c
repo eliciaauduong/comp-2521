@@ -52,10 +52,12 @@ FileList insertFileList (FileList list, char *file, double tf) {
     }
 
     // start of list
+    // if file is already in the list
     if (strcmp(file, list->filename) == 0) {
         return list;
     }
     
+    // if file comes before the first node in the list
     if (strcmp(file, list->filename) < 0) {
         FileList tmp = list;
         list = newFileListNode(file, tf, tmp);
@@ -65,10 +67,12 @@ FileList insertFileList (FileList list, char *file, double tf) {
     // middle of list
     FileList curr = list;
     while (curr->next != NULL) {
+        // if file is already in the list
         if (strcmp(file, curr->next->filename) == 0) {
             return list;
         }
-        
+
+        // if file comes before the next node in the list
         if (strcmp(file, curr->next->filename) < 0) {
             FileList tmp = curr->next;
             curr->next = newFileListNode(file, tf, tmp);
@@ -78,15 +82,16 @@ FileList insertFileList (FileList list, char *file, double tf) {
     }
 
     // end of list
+    // if file is already in the list
     if (strcmp(file, list->filename) == 0) {
         return list;
-    } else {
-        FileList curr = list;
-        while (curr->next != NULL) {
-            curr = curr->next;
-        }
-        curr->next = newFileListNode(file, tf, NULL);
-        return list;
+    } 
+    
+    // add to the end of the list
+    FileList curr = list;
+    while (curr->next != NULL) {
+        curr = curr->next;
     }
-
+    curr->next = newFileListNode(file, tf, NULL);
+    return list;
 }
