@@ -52,7 +52,6 @@ Graph getGraph(urlList list) {
             // update graph by adding node and outgoing links
             addEdge(urlGraph, curr->file, urlLink);
         }
-        printf("\n");
         fclose(urlFile);
         curr = curr->next;
     }
