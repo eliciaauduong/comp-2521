@@ -88,7 +88,7 @@ FileList insertFileList (FileList list, char *file, double tf) {
     } 
     
     // add to the end of the list
-    FileList curr = list;
+    curr = list;
     while (curr->next != NULL) {
         curr = curr->next;
     }
