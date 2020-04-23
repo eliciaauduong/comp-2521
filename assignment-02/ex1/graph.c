@@ -5,16 +5,6 @@
 
 #include "graph.h"
 
-typedef struct GraphRep {
-    int nV;
-    int nE;
-    char **vertex;
-    int **edges;
-} GraphRep;
-
-typedef struct GraphRep *Graph;
-
-
 void addEdge(Graph g, char *src, char *dest) {
     int v = vertexPosition(src, g->vertex, g->nV);
     int w = vertexPosition(dest, g->vertex, g->nV);
@@ -80,7 +70,7 @@ int vertexPosition (char *v, char** list, int size) {
 
 // add vertex to the list of vertices
 int addVertex(char *v, char **list, int size) {
-    list[size] = strdup(v);
+    list[size] = v;
     return size;
 }
 

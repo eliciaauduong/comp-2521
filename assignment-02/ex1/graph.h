@@ -1,3 +1,10 @@
+typedef struct GraphRep {
+    int nV;
+    int nE;
+    char **vertex;
+    int **edges;
+} GraphRep;
+
 typedef struct GraphRep *Graph;
 
 int vertexPosition (char *v, char** list, int size);
