@@ -1,3 +1,13 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    graph.c                                                                 //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Graph ADT (Adjacency Matrix)                                            //
+//    Adapted from COMP2521 Lab Week 08 								      //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -5,6 +15,26 @@
 
 #include "graph.h"
 
+// find the correct position of the vertex
+// returns the index or -1 if not found
+int vertexPosition (char *v, char** list, int size) {
+    if (size > 0) {
+        for (int i = 0; i < size; i++) {
+            if (strcmp(list[i], v) == 0) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+// add vertex to the list of vertices
+int addVertex(char *v, char **list, int size) {
+    list[size] = v;
+    return size;
+}
+
+// add edge from source vertex to destination vertex
 void addEdge(Graph g, char *src, char *dest) {
     int v = vertexPosition(src, g->vertex, g->nV);
     int w = vertexPosition(dest, g->vertex, g->nV);
@@ -23,6 +53,7 @@ void addEdge(Graph g, char *src, char *dest) {
     g->nE++;
 }
 
+// create and allocate memory for a new graph structure
 Graph newGraph (int nV) {
     assert (nV > 0);
 
@@ -45,6 +76,7 @@ Graph newGraph (int nV) {
 	return new;
 }
 
+// free the memory for the graph
 void dropGraph(Graph g) {
     assert (g != NULL);
     for (int v = 0; v < g->nV; v++)
@@ -54,50 +86,4 @@ void dropGraph(Graph g) {
     free (g->vertex);
 	free (g->edges);
 	free (g);
-}
-
-// find the correct position of the vertex and returns the index or -1 if not found
-int vertexPosition (char *v, char** list, int size) {
-    if (size > 0) {
-        for (int i = 0; i < size; i++) {
-            if (strcmp(list[i], v) == 0) {
-                return i;
-            }
-        }
-    }
-    return -1;
-}
-
-// add vertex to the list of vertices
-int addVertex(char *v, char **list, int size) {
-    list[size] = v;
-    return size;
-}
-
-
-void showGraph (Graph g, int mode)
-{
-	assert (g != NULL);
-	if (g->nV == 0) {
-		puts ("Graph is empty");
-		return;
-	}
-
-	printf ("Graph has %zu vertices:\n", g->nV);
-	if (mode == 1) {
-		for (size_t i = 0; i < g->nV; i++) {
-			for (size_t j = 0; j < g->nV; j++)
-				printf ("%d ", g->edges[i][j]);
-			putchar ('\n');
-		}
-	} else {
-		for (size_t i = 0; i < g->nV; i++) {
-			printf ("Vertex: %s\n", g->vertex[i]);
-			printf ("connects to\n");
-			for (size_t j = 0; j < g->nV; j++) {
-				if (g->edges[i][j])
-					printf ("   %s\n", g->vertex[j]);
-			}
-		}
-	}
 }

@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    pagerank.c                                                              //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Complete functions for part 1 - weighted page ranks                     //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -20,30 +29,34 @@ int main(int argc, char *argv[]) {
     double diffPR = atof(argv[2]);
     int maxIterations = atoi(argv[3]);
 
+    // create the list of urls
     urlList list = GetCollection("collection.txt");
+    // create a graph from the urls
     Graph urlGraph = getGraph(list);
+    // create a list of urls and associated pageranks
     pagerankList prList = calculatePageRank(urlGraph, d, diffPR, maxIterations);
+    // print the pagerank list to a file
     printPagerankList(prList, "pagerankList.txt");
 }
 
+// implement the given weighted page rank algorithm
 pagerankList calculatePageRank(Graph g, double d, double diffPR, int maxIterations) {
     // number of urls in the collection
     double nUrl = g->nV; 
     
     // iteration 0 pageranks for each vertex
-    double *iPagerank = calloc(nUrl, sizeof(double));
-    
+    double *iPagerank = calloc(nUrl, sizeof(double)); 
     for (int i = 0; i < nUrl; i++) {
         iPagerank[i] = (1 / nUrl);
     }
 
+    // iteration t + 1
     double *iPagerankNext = calloc(nUrl, sizeof(double));
 
     int iteration = 0;
     double diff = diffPR;
 
     while (iteration < maxIterations && diff >= diffPR) {
-        
         for (int i = 0; i < nUrl; i++) {
             // M is a set containing nodes with outgoing links to pi
             double jPagerank = 0;
@@ -53,12 +66,14 @@ pagerankList calculatePageRank(Graph g, double d, double diffPR, int maxIteratio
                     jPagerank += (iPagerank[j] * weightedIn(g, j, i) * weightedOut(g, j, i));
                 }
             }
+            // if there are no outlinks, multiply by 1 instead of 0
             if (jPagerank == 0) {
                 jPagerank = 1;
             }
             iPagerankNext[i] = (((1-d) / nUrl) + (d * jPagerank));
         }
         
+        // calculate the difference between the two iterations
         diff = 0;
         for (int i = 1; i < nUrl; i++) {
             diff += fabs(iPagerankNext[i] - iPagerank[i]);
@@ -70,6 +85,7 @@ pagerankList calculatePageRank(Graph g, double d, double diffPR, int maxIteratio
         iteration++;
     }
 
+    // add the calculations to pagerank list
     pagerankList prList = createPagerankList();
     for (int i = 0; i < nUrl; i++) {
         prList = addPagerankNode(prList, g->vertex[i], countLinks(g, i, 1), iPagerank[i]);
@@ -78,6 +94,7 @@ pagerankList calculatePageRank(Graph g, double d, double diffPR, int maxIteratio
     return prList;
 }
 
+// print the pages and associated page ranks to a file pagerankList.txt
 void printPagerankList(pagerankList pr, char *file) {
     FILE *prFile = fopen(file, "w");
     pagerankList curr = pr;
@@ -95,6 +112,7 @@ static double countLinks(Graph g, int link, int mode) {
     if (mode == 0) {
         int inlink = 0;
         for (int i = 0; i < g->nV; i++) {
+            // if there is an edge from the current node to the given link
             if (g->edges[i][link] != 0) {
                 inlink++;
             }
@@ -106,12 +124,15 @@ static double countLinks(Graph g, int link, int mode) {
     if (mode == 1) {
         double outlink = 0;
         for (int i = 0; i < g->nV; i++) {
+            // if there is an edge to the current node from the given link
             if (g->edges[link][i] != 0) {
                 outlink++;
             }
         }
         return outlink;
     }
+
+    return -1;
 }
 
 // if a given degree is 0, change it to 0.5
@@ -122,6 +143,7 @@ static double zeroCheck(double degree) {
     return degree;
 }
 
+// calculate weightedin for two given links
 static double weightedIn(Graph g, int v, int u) {
     // wIn = (u inlinks) / (sum of all inlinks of reference pages of v)
     double uLink = zeroCheck(countLinks(g, u, 0));
@@ -138,6 +160,7 @@ static double weightedIn(Graph g, int v, int u) {
     return (uLink / vLink);
 }
 
+// calculate weightedout for two given links
 static double weightedOut(Graph g, int v, int u) {
     // wOut = (u outlinks) / (sum of all outlinks of reference pages of v)
     double uLink = zeroCheck(countLinks(g, u, 1));

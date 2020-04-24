@@ -1,15 +1,24 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    searchList.c                                                            //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Linked list ADT to store pages, number of search terms and pageranks    //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "searchList.h"
 
-// Create a new empty list
+// create a new empty list
 searchList createSearchList(void) {
     return NULL;
 }
 
-// Allocate memory for a new node
+// allocate memory for a new node
 searchList newSearchNode(char *page, int searchTerms, double pagerank, searchList next) {
     searchList new = malloc(sizeof(*new));
     new->page = page;
@@ -19,7 +28,7 @@ searchList newSearchNode(char *page, int searchTerms, double pagerank, searchLis
     return new;
 }
 
-// Add a node in the correct (ordered) position in a linked list
+// add a node in the correct (ordered) position in a linked list
 // sort by descending order of search terms
 // then sort by descending order of weighted pagerank
 searchList addSearchNode(searchList list, char *page, int searchTerms, double pagerank) {
@@ -32,7 +41,9 @@ searchList addSearchNode(searchList list, char *page, int searchTerms, double pa
     if (searchTerms > list->searchTerms) {
         return newSearchNode(page, searchTerms, pagerank, list);
     }
+    // if number of search terms are the same
     if (searchTerms == list->searchTerms) {
+        // sort in descending order of pageranks
         if (pagerank > list->pagerank) {
             return newSearchNode(page, searchTerms, pagerank, list);
         }
@@ -42,6 +53,7 @@ searchList addSearchNode(searchList list, char *page, int searchTerms, double pa
             return list;
         }
     }
+
     // middle of list
     searchList curr = list;
     while (curr->next != NULL) {
@@ -51,8 +63,9 @@ searchList addSearchNode(searchList list, char *page, int searchTerms, double pa
             curr->next = new;
             return list;
         }
-        
+        // if number of search terms are the same
         if (searchTerms == curr->searchTerms) {
+            // sort in descending order of pageranks
             if (pagerank > curr->next->pagerank) {
                 searchList new = newSearchNode(page, searchTerms, pagerank, curr->next);
                 curr->next = new;           
@@ -72,18 +85,19 @@ searchList addSearchNode(searchList list, char *page, int searchTerms, double pa
         curr = curr->next;
     }
 
-    // add to the end of the list
     curr = list;
     while (curr->next != NULL) {
         curr = curr->next;
     }
+    // add to the end of the list
     if (searchTerms < curr->searchTerms) {
         searchList new = newSearchNode(page, searchTerms, pagerank, NULL);
         curr->next = new;
         return list;
     }
+    // if number of search terms are the same
     if (searchTerms == curr->searchTerms) {
-        
+        // sort in descending order of pageranks
         if (pagerank > curr->pagerank) {
             searchList new = newSearchNode(page, searchTerms, pagerank, curr);
             curr->next = new;
@@ -98,7 +112,7 @@ searchList addSearchNode(searchList list, char *page, int searchTerms, double pa
     return list;
 }
 
-// Return the size of a list
+// return the size of a list
 int searchListSize(searchList list) {
     searchList curr = list;
     int len = 0;
@@ -107,15 +121,4 @@ int searchListSize(searchList list) {
         curr = curr->next;
     }
     return len;
-}
-
-// return the node of a search term if found
-int findSearchNode(searchList list, char *page) {
-    searchList curr = list;
-    while (curr != NULL) {
-        if (strcmp(page, curr->page) == 0) {
-            return 1;
-        }
-    }
-    return 0;
 }

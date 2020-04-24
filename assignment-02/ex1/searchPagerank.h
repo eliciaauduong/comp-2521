@@ -1,15 +1,25 @@
-// write a simple search engine that given search terms (words) as commandline arguments, find pages with one or more search terms and outputs (to stdout) top 30 pages in descending order of number of search terms found and then within each group, descending order of weighted pagerank
-// if number of matches are less than 30, output all of them 
-/*
-% ./searchPagerank  mars  design
-    url31
-    url25
-    url2
-    url101
-*/
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    searchPagerank.h                                                        //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Complete functions for part 2 - search engine                           //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
+typedef struct searchNode *searchList;
+
+// create a linked list of page, number of search words and pagerank
+// sorted in descending order of search terms
+// then descending order of pagerank
+searchList searchPagerank(void);
+
+// from invertedIndex.txt
+// print all lines with search words to a new file foundPages.txt
 void findSearchPages(int numSearch, char **searchwords);
 
+// find the pagerank of a given page using pagerankList.txt
 double findPagerank(char *page);
 
+// count the number of searchwords that a given page contains
 int countSearch(char *page);

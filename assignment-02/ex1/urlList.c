@@ -1,15 +1,24 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    urlList.c                                                               //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    List ADT to store a list of urls                                        //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "urlList.h"
 
-// Create a new empty list
+// create a new empty list
 urlList createUrlList(void) {
     return NULL;
 }
 
-// Allocate memory for a new node
+// allocate memory for a new node
 urlList newUrlNode(char *file, urlList next) {
     urlList new = malloc(sizeof(*new));
     new->file = file;
@@ -17,7 +26,7 @@ urlList newUrlNode(char *file, urlList next) {
     return new;
 }
 
-// Add a node in the correct (ordered) position in a linked list
+// add a node in the correct (ordered) position in a linked list
 urlList addUrlNode(urlList list, char *file) {
     // empty list
     if (list == NULL) {
@@ -52,7 +61,7 @@ urlList addUrlNode(urlList list, char *file) {
     return list;
 }
 
-// Return the size of a list
+// return the size of a list
 int urlListSize(urlList list) {
     urlList curr = list;
     int len = 0;

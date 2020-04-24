@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    readData.h                                                              //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Create a graph structure for a list of urls in collection.txt           //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 typedef struct urlNode *urlList;
 typedef struct GraphRep *Graph;
 

@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    readData.c                                                              //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Create a graph structure for a list of urls in collection.txt           //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,6 +22,7 @@ urlList GetCollection(char *file) {
     FILE *collection = fopen(file, "r");
     urlList list = createUrlList();
 
+    // read each word in collection.txt and add to the list of urls
     char filename[MAX_URL];
     while (fscanf(collection, "%s", filename) != EOF) {
         char *files = (char *)calloc(MAX_URL, sizeof(char));

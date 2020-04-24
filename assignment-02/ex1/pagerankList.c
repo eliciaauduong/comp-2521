@@ -1,15 +1,24 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    pagerankList.c                                                          //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Linked list ADT to store pages, outlinks and pageranks                  //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "pagerankList.h"
 
-// Create a new empty list
+// create a new empty list
 pagerankList createPagerankList(void) {
     return NULL;
 }
 
-// Allocate memory for a new node
+// allocate memory for a new node
 pagerankList newPagerankNode(char *file, int outlink, double pr, pagerankList next) {
     pagerankList new = malloc(sizeof(*new));
     new->file = file;
@@ -19,7 +28,7 @@ pagerankList newPagerankNode(char *file, int outlink, double pr, pagerankList ne
     return new;
 }
 
-// Add a node in the correct (ordered) position in a linked list
+// add a node in the correct (ordered) position in a linked list
 pagerankList addPagerankNode(pagerankList list, char *file, int outlink, double pr) {
     // empty list
     if (list == NULL) {
@@ -54,7 +63,7 @@ pagerankList addPagerankNode(pagerankList list, char *file, int outlink, double 
     return list;
 }
 
-// Return the size of a list
+// return the size of a list
 int pagerankListSize(pagerankList list) {
     pagerankList curr = list;
     int len = 0;

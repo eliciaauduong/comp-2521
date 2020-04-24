@@ -1,4 +1,11 @@
-
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    pagerankList.h                                                          //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Linked list ADT to store pages, outlinks and pageranks                  //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
 
 //linked list
 struct pagerankNode {
@@ -9,14 +16,14 @@ struct pagerankNode {
 };
 typedef struct pagerankNode *pagerankList;
 
-// Create a new empty list
+// create a new empty list
 pagerankList createPagerankList(void);
 
-// Allocate memory for a new node
+// allocate memory for a new node
 pagerankList newPagerankNode(char *file, int outlink, double pr, pagerankList next);
 
-// Add a node in the correct (ordered) position in a linked list
+// add a node in the correct (ordered) position in a linked list
 pagerankList addPagerankNode(pagerankList list, char *file, int outlink, double pr);
 
-// Return the size of a list
+// return the size of a list
 int pagerankListSize(pagerankList list);

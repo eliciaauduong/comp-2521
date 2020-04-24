@@ -1,3 +1,12 @@
+////////////////////////////////////////////////////////////////////////////////
+//                                                                            //
+//    searchList.h                                                            //
+//    Written by Elicia AU DUONG (z5260173)                                   //
+//    COMP2521 - Assignment 2 - Simple Search Engine                          //
+//    Linked list ADT to store pages, number of search terms and pageranks    //
+//                                                                            //
+////////////////////////////////////////////////////////////////////////////////
+
 //linked list
 struct searchNode {
     char *page;
@@ -7,17 +16,14 @@ struct searchNode {
 };
 typedef struct searchNode *searchList;
 
-// Create a new empty list
+// create a new empty list
 searchList createSearchList(void);
 
-// Allocate memory for a new node
+// allocate memory for a new node
 searchList newSearchNode(char *page, int searchTerms, double pagerank, searchList next);
 
-// Add a node in the correct (ordered) position in a linked list
+// add a node in the correct (ordered) position in a linked list
 searchList addSearchNode(searchList list, char *page, int searchTerms, double pagerank);
 
-// Return the size of a list
+// return the size of a list
 int searchListSize(searchList list);
-
-// return the node of a search term if found
-int findSearchNode(searchList list, char *page);
